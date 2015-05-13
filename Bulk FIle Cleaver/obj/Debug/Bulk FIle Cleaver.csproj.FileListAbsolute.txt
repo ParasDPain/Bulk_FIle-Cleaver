@@ -1,0 +1,9 @@
+C:\Users\Paras\Documents\Visual Studio 2013\Projects\Bulk FIle Cleaver\Bulk FIle Cleaver\bin\Debug\Bulk FIle Cleaver.exe.config
+C:\Users\Paras\Documents\Visual Studio 2013\Projects\Bulk FIle Cleaver\Bulk FIle Cleaver\bin\Debug\Bulk FIle Cleaver.exe
+C:\Users\Paras\Documents\Visual Studio 2013\Projects\Bulk FIle Cleaver\Bulk FIle Cleaver\bin\Debug\Bulk FIle Cleaver.pdb
+C:\Users\Paras\Documents\Visual Studio 2013\Projects\Bulk FIle Cleaver\Bulk FIle Cleaver\obj\Debug\Bulk FIle Cleaver.csprojResolveAssemblyReference.cache
+C:\Users\Paras\Documents\Visual Studio 2013\Projects\Bulk FIle Cleaver\Bulk FIle Cleaver\obj\Debug\Bulk_FIle_Cleaver.homeForm.resources
+C:\Users\Paras\Documents\Visual Studio 2013\Projects\Bulk FIle Cleaver\Bulk FIle Cleaver\obj\Debug\Bulk_FIle_Cleaver.Properties.Resources.resources
+C:\Users\Paras\Documents\Visual Studio 2013\Projects\Bulk FIle Cleaver\Bulk FIle Cleaver\obj\Debug\Bulk FIle Cleaver.csproj.GenerateResource.Cache
+C:\Users\Paras\Documents\Visual Studio 2013\Projects\Bulk FIle Cleaver\Bulk FIle Cleaver\obj\Debug\Bulk FIle Cleaver.exe
+C:\Users\Paras\Documents\Visual Studio 2013\Projects\Bulk FIle Cleaver\Bulk FIle Cleaver\obj\Debug\Bulk FIle Cleaver.pdb
