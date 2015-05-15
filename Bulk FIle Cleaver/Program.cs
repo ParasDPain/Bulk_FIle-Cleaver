@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Bulk_FIle_Cleaver
+namespace Bulk_File_Cleaver
 {
     internal static class Program
     {

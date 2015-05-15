@@ -1,4 +1,4 @@
-﻿namespace Bulk_FIle_Cleaver
+﻿namespace Bulk_File_Cleaver
 {
     partial class homeForm
     {
@@ -43,6 +43,8 @@
             this.lbl_ValidityMsg = new System.Windows.Forms.Label();
             this.btn_Undo = new System.Windows.Forms.Button();
             this.btn_Redo = new System.Windows.Forms.Button();
+            this.browserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.btn_BrowserDialog = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtFolderPath
@@ -50,7 +52,7 @@
             this.txtFolderPath.Cursor = System.Windows.Forms.Cursors.Default;
             this.txtFolderPath.Location = new System.Drawing.Point(79, 30);
             this.txtFolderPath.Name = "txtFolderPath";
-            this.txtFolderPath.Size = new System.Drawing.Size(310, 20);
+            this.txtFolderPath.Size = new System.Drawing.Size(289, 20);
             this.txtFolderPath.TabIndex = 0;
             this.txtFolderPath.TextChanged += new System.EventHandler(this.txtFolderPath_TextChanged);
             // 
@@ -184,12 +186,31 @@
             this.btn_Redo.UseVisualStyleBackColor = true;
             this.btn_Redo.Click += new System.EventHandler(this.btn_Redo_Click);
             // 
+            // browserDialog
+            // 
+            this.browserDialog.Description = "Select Folder";
+            this.browserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
+            this.browserDialog.ShowNewFolderButton = false;
+            // 
+            // btn_BrowserDialog
+            // 
+            this.btn_BrowserDialog.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_BrowserDialog.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_BrowserDialog.Location = new System.Drawing.Point(367, 30);
+            this.btn_BrowserDialog.Name = "btn_BrowserDialog";
+            this.btn_BrowserDialog.Size = new System.Drawing.Size(22, 20);
+            this.btn_BrowserDialog.TabIndex = 14;
+            this.btn_BrowserDialog.Text = "...";
+            this.btn_BrowserDialog.UseVisualStyleBackColor = true;
+            this.btn_BrowserDialog.Click += new System.EventHandler(this.btn_BrowserDialog_Click);
+            // 
             // homeForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(590, 351);
+            this.Controls.Add(this.btn_BrowserDialog);
             this.Controls.Add(this.btn_Redo);
             this.Controls.Add(this.btn_Undo);
             this.Controls.Add(this.lbl_ValidityMsg);
@@ -233,6 +254,8 @@
         private System.Windows.Forms.Label lbl_ValidityMsg;
         private System.Windows.Forms.Button btn_Undo;
         private System.Windows.Forms.Button btn_Redo;
+        private System.Windows.Forms.FolderBrowserDialog browserDialog;
+        private System.Windows.Forms.Button btn_BrowserDialog;
     }
 }
 
