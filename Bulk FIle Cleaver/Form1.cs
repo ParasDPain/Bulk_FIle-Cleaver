@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using DejaVu;
 
 namespace Bulk_File_Cleaver
 {
@@ -18,13 +19,18 @@ namespace Bulk_File_Cleaver
         #region Global Vars
 
         public string[] AlgoList = new string[] { "Recognize Numbers", "Sanitize" };
-        public int commitCount = -1;
-        public DirectoryInfo dir;
-        public string[] filesNameArray;
+        public char[] removables = new char[] { '.', '_', '-', ' ', '^', '!', '@', '#', '$', '%', '&', '*', '~', '`', '?' };
+
+        private readonly UndoRedo<FileInfoList> mainFileList = new UndoRedo<FileInfoList>();
+        internal FileInfoList MainFileList
+        {
+            get { return mainFileList.Value; }
+            set { mainFileList.Value = value; }
+        }
+
+
         public string folderPath;
         public char[] invalidSet = Path.GetInvalidFileNameChars();
-        public FileInfo[] mainFileInfo;
-        public int undoCount = 0;
 
         #endregion Global Vars
 
@@ -64,16 +70,38 @@ namespace Bulk_File_Cleaver
             }
             else if (AlgoDropDown.SelectedIndex == 1)
             {
-                ValidatePath();
-                FileInfo[] newFileInfo = SanitizeFiles(mainFileInfo);
-                Rename(newFileInfo);
-                ValidatePath();
+                using (UndoRedoManager.Start("Rename"))
+                {
+                    // Check files
+                    MainFileList = new FileInfoList(folderPath);
+                    MainFileList.DisplayFiles(ref lstFilesList, ref barPathLoading);
+
+                    UndoRedoManager.Commit();
+                } 
+                
+                using (UndoRedoManager.Start("Rename"))
+                {
+                    // Record data point
+                    FileInfoList oldFiles = new FileInfoList(folderPath);
+
+                    // Sanitize
+                    MainFileList.Sanitize(removables);
+
+                    // Rename and assign
+                    oldFiles.RenameTo(MainFileList);
+                    MainFileList = oldFiles;
+
+                    MainFileList.DisplayFiles(ref lstFilesList, ref barPathLoading);
+
+                    UndoRedoManager.Commit();
+                }
 
                 lstFilesList.BackColor = Color.White;
                 lbl_Msg.Text = "Operation Successful";
             }
         }
 
+        // Invalid state exception for some reason :/
         private void btn_Preview_Click(object sender, EventArgs e)
         {
             if (AlgoDropDown.SelectedIndex == 0)
@@ -82,8 +110,23 @@ namespace Bulk_File_Cleaver
             }
             else if (AlgoDropDown.SelectedIndex == 1)
             {
-                FileInfo[] newFileInfo = SanitizeFiles(mainFileInfo);
-                UpdateListView(newFileInfo);
+                using (UndoRedoManager.StartInvisible("Rename"))
+                {
+                    // Check data
+                    MainFileList = new FileInfoList(folderPath);
+                    MainFileList.DisplayFiles(ref lstFilesList, ref barPathLoading);
+
+                    UndoRedoManager.Commit();
+                }
+
+                using (UndoRedoManager.StartInvisible("Rename"))
+                {
+                    // Sanitize and display
+                    MainFileList.Sanitize(removables);
+                    MainFileList.DisplayFiles(ref lstFilesList, ref barPathLoading);
+                    
+                    UndoRedoManager.Commit();
+                }
 
                 lstFilesList.BackColor = Color.LightSteelBlue;
             }
@@ -91,12 +134,29 @@ namespace Bulk_File_Cleaver
 
         private void btn_Redo_Click(object sender, EventArgs e)
         {
-            
+            // Record data point
+            FileInfoList oldFiles = new FileInfoList(folderPath);
+
+            if (UndoRedoManager.CanRedo)
+            {
+                UndoRedoManager.Redo();
+                oldFiles.RenameTo(MainFileList);
+                MainFileList.DisplayFiles(ref lstFilesList, ref barPathLoading);
+            }
         }
 
         private void btn_Undo_Click(object sender, EventArgs e)
         {
-                    }
+            // Record data point
+            FileInfoList oldFiles = new FileInfoList(folderPath);
+
+            if (UndoRedoManager.CanUndo)
+            {
+                UndoRedoManager.Undo();
+                oldFiles.RenameTo(MainFileList);
+                MainFileList.DisplayFiles(ref lstFilesList, ref barPathLoading);
+            }
+        }
 
         private void homeForm_Load(object sender, EventArgs e)
         {
@@ -115,58 +175,33 @@ namespace Bulk_File_Cleaver
             btn_Apply.Enabled = false;
         }
 
-        private void Rename(FileInfo[] currentFileInfo)
-        {
-            for (int i = 0; i < currentFileInfo.Length; i++)
-            {
-                mainFileInfo[i].MoveTo(currentFileInfo[i].FullName);
-            }
-        }
-
-        // Method updates ListView column size
-        private void ResizeListViewColumns(ListView lv)
-        {
-            foreach (ColumnHeader column in lv.Columns)
-            {
-                column.Width = -2;
-            }
-        }
-
-        // Removes certain chars from the file name and converts to TitleCase
-        private FileInfo[] SanitizeFiles(FileInfo[] currentFileInfo)
-        {
-            FileInfo[] newFileInfo = new FileInfo[currentFileInfo.Length];
-
-            // Characters to remove
-            char[] removables = new char[] { '.', '_', '-', ' ', '^','!','@','#','$','%','&','*','~','`','?'};
-
-            // To convert to TitleCase
-            TextInfo myTI = new CultureInfo("en-US", false).TextInfo;
-
-            for (int i = 0; i < newFileInfo.Length; i++)
-            {
-                // Trim file name
-                int extLen = currentFileInfo[i].Extension.Length;
-                int namLen = currentFileInfo[i].Name.Length;
-                string deconBuffer = currentFileInfo[i].Name.Remove(namLen - extLen);
-                string conBuffer = "";
-
-                string[] splitted = deconBuffer.Split(removables);
-                foreach (string s in splitted)
-                {
-                    // Add the cleaned strings to a buffer
-                    conBuffer += myTI.ToTitleCase(s) + " ";
-                }
-                // Remove the trailing whitespace and assign
-                newFileInfo[i] = new FileInfo(folderPath + "\\" + conBuffer.Remove(conBuffer.Length - 1) + currentFileInfo[i].Extension);
-            }
-            return newFileInfo;
-        }
-
         private void txtFolderPath_TextChanged(object sender, EventArgs e)
         {
             folderPath = txtFolderPath.Text;
-            ValidatePath();
+            if (Directory.Exists(folderPath))
+            {
+                using (UndoRedoManager.StartInvisible("Rename"))
+                {
+                    MainFileList = new FileInfoList(folderPath);
+                    UndoRedoManager.Commit();
+                }
+                MainFileList.DisplayFiles(ref lstFilesList, ref barPathLoading);
+
+                // Update components
+                lbl_Msg.Text = "Files found";
+                AlgoDropDown.Enabled = true;
+                txtPrefix.Enabled = true;
+                btn_Preview.Enabled = true;
+                btn_Apply.Enabled = true;
+            }
+            else
+            {
+                lbl_Msg.Text = "";
+                AlgoDropDown.Enabled = false;
+                txtPrefix.Enabled = false;
+                btn_Apply.Enabled = false;
+                btn_Preview.Enabled = false;
+            }
         }
 
         private void txtPrefix_TextChanged(object sender, EventArgs e)
@@ -193,63 +228,5 @@ namespace Bulk_File_Cleaver
                 txtFolderPath.Text = browserDialog.SelectedPath;
             }
         }
-
-        // Method update the listView with the current files
-        private void UpdateListView(FileInfo[] currentFileInfo)
-        {
-            lstFilesList.Clear();
-
-            // Progress Bar setup
-            barPathLoading.Maximum = currentFileInfo.Length;
-            barPathLoading.Step = 1;
-
-            lstFilesList.Columns.Add("Name", -2, HorizontalAlignment.Left);
-            lstFilesList.Columns.Add("Date", -2, HorizontalAlignment.Left);
-
-            for (int i = 0; i < currentFileInfo.Length; i++)
-            {
-                // Create new List Item with sub item 'date'
-                ListViewItem ItemName = new ListViewItem(currentFileInfo[i].Name);
-                ItemName.SubItems.Add(currentFileInfo[i].CreationTime.ToLongDateString());
-
-                // Add into listView
-                lstFilesList.Items.Add(ItemName);
-
-                // Update Progress Bar
-                barPathLoading.PerformStep();
-                barPathLoading.Update();
-            }
-            ResizeListViewColumns(lstFilesList);
-        }
-
-        // Validates folder path and loads file structure into vars
-        private void ValidatePath()
-        {
-            if (Directory.Exists(folderPath))
-            {
-                // Loads mainFileInfo from the actual directory
-                dir = new DirectoryInfo(folderPath);
-                mainFileInfo = dir.GetFiles("*", SearchOption.TopDirectoryOnly);
-
-                // Update the listView
-                UpdateListView(mainFileInfo);
-
-                // Update components
-                lbl_Msg.Text = "Files found";
-                AlgoDropDown.Enabled = true;
-                txtPrefix.Enabled = true;
-                btn_Preview.Enabled = true;
-                btn_Apply.Enabled = true;
-            }
-            else
-            {
-                lbl_Msg.Text = "";
-                AlgoDropDown.Enabled = false;
-                txtPrefix.Enabled = false;
-                btn_Apply.Enabled = false;
-                btn_Preview.Enabled = false;
-            }
-        }
-
     }
 }

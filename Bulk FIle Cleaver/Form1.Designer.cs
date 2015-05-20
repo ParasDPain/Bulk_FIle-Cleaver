@@ -68,6 +68,7 @@
             // 
             // lstFilesList
             // 
+            this.lstFilesList.CheckBoxes = true;
             this.lstFilesList.Cursor = System.Windows.Forms.Cursors.Default;
             this.lstFilesList.GridLines = true;
             this.lstFilesList.Location = new System.Drawing.Point(79, 59);
@@ -194,11 +195,10 @@
             // 
             // btn_BrowserDialog
             // 
-            this.btn_BrowserDialog.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_BrowserDialog.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_BrowserDialog.Location = new System.Drawing.Point(367, 30);
+            this.btn_BrowserDialog.Location = new System.Drawing.Point(367, 29);
             this.btn_BrowserDialog.Name = "btn_BrowserDialog";
-            this.btn_BrowserDialog.Size = new System.Drawing.Size(22, 20);
+            this.btn_BrowserDialog.Size = new System.Drawing.Size(22, 22);
             this.btn_BrowserDialog.TabIndex = 14;
             this.btn_BrowserDialog.Text = "...";
             this.btn_BrowserDialog.UseVisualStyleBackColor = true;

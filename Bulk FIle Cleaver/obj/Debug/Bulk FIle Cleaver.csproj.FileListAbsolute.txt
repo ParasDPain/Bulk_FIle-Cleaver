@@ -7,3 +7,5 @@ C:\Users\Paras\Documents\Visual Studio 2013\Projects\Bulk FIle Cleaver\Bulk FIle
 C:\Users\Paras\Documents\Visual Studio 2013\Projects\Bulk FIle Cleaver\Bulk FIle Cleaver\obj\Debug\Bulk FIle Cleaver.csproj.GenerateResource.Cache
 C:\Users\Paras\Documents\Visual Studio 2013\Projects\Bulk FIle Cleaver\Bulk FIle Cleaver\obj\Debug\Bulk FIle Cleaver.exe
 C:\Users\Paras\Documents\Visual Studio 2013\Projects\Bulk FIle Cleaver\Bulk FIle Cleaver\obj\Debug\Bulk FIle Cleaver.pdb
+C:\Users\Paras\Documents\Visual Studio 2013\Projects\Bulk FIle Cleaver\Bulk FIle Cleaver\bin\Debug\Dejavu.dll
+C:\Users\Paras\Documents\Visual Studio 2013\Projects\Bulk FIle Cleaver\Bulk FIle Cleaver\bin\Debug\Dejavu.pdb
