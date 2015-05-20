@@ -1,0 +1,5 @@
+H:\DEVIDE\C#\DejaVu_UndoRedoManager\Dejavu\bin\Debug\Dejavu.dll
+H:\DEVIDE\C#\DejaVu_UndoRedoManager\Dejavu\bin\Debug\Dejavu.pdb
+H:\DEVIDE\C#\DejaVu_UndoRedoManager\Dejavu\obj\Debug\DejaVu.csprojResolveAssemblyReference.cache
+H:\DEVIDE\C#\DejaVu_UndoRedoManager\Dejavu\obj\Debug\Dejavu.dll
+H:\DEVIDE\C#\DejaVu_UndoRedoManager\Dejavu\obj\Debug\Dejavu.pdb

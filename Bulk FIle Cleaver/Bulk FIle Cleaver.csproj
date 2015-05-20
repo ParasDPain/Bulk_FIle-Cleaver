@@ -81,7 +81,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="H:\DEVIDE\C#\DejaVu_UndoRedoManager\Dejavu\DejaVu.csproj">
+    <ProjectReference Include="..\Dejavu\DejaVu.csproj">
       <Project>{a204bd9c-1c1a-4ae8-9716-b7b6c67e09f7}</Project>
       <Name>DejaVu</Name>
     </ProjectReference>

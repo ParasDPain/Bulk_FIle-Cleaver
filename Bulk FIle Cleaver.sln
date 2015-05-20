@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bulk FIle Cleaver", "Bulk FIle Cleaver\Bulk FIle Cleaver.csproj", "{992FF74A-BCD4-4DA3-8435-222A8F02B220}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DejaVu", "H:\DEVIDE\C#\DejaVu_UndoRedoManager\Dejavu\DejaVu.csproj", "{A204BD9C-1C1A-4AE8-9716-B7B6C67E09F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DejaVu", "Dejavu\DejaVu.csproj", "{A204BD9C-1C1A-4AE8-9716-B7B6C67E09F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
